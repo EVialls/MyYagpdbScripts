@@ -1,4 +1,4 @@
-{{/* shows how many Memories have been sacrificed to the pit, and who's memories in particular }}
+{{/* shows how many Memories have been sacrificed to the pit, and who's memories in particular */}}
 Currently in the pit:
 {{$maxCount := dbCount "memories"}}{{ range $items := dbTopEntries "memories" $maxCount 0 }}{{ $victim := $items.UserID }}{{if (getMember $victim)}}{{$name := or (getMember $victim).Nick $items.User.Username}}{{if not $name}}{{$name = ($items.User).Username}}{{end}}
 {{$items.Value}} of {{$name}}'s memories.{{end }}{{end}}

@@ -1,4 +1,4 @@
-{{/* Gives a number of marbles as specified by the user to another player}}
+{{/* Gives a number of marbles as specified by the user to another player */}}
 {{$args := parseArgs 2 "Syntax is <user> <number>"
     (carg "userid" "user to give marbles to")
     (carg "int" "number of marbles")}}

@@ -1,9 +1,9 @@
-{{/* get the information on the user executing the command}}
+{{/* get the information on the user executing the command */}}
 {{$user := .User}}
 {{$name := (getMember $user).Nick}}
 {{if not $name}}{{$name = $user.Username}}{{end}}
 
-{{/* setting up variables for various parts of the game, and randomises what will be found, as well as whether the user was successful}}
+{{/* setting up variables for various parts of the game, and randomises what will be found, as well as whether the user was successful */}}
 {{ $emotions := cslice "ready" "concerned" "determined" "scared" "excited" "happy" "fearful" "grateful" "sleepy" "grumpy" "disturbed" "upset" "crying" "immaculate"}}
 {{ $gunk := cslice "blood" "goo" "flesh" "bones" "gloop" "gold" "tears" "dreams" }}
 {{ $sacrifices := cslice "dreams" "memories" "eyes" "hopes" "bones" "teeth" }}
@@ -18,8 +18,7 @@
 {{ $extraType := index (shuffle $sacrifices) 0 }}
 {{ $chanceForDeath := randInt 1 100 }}
 
-
-{{/* runs through the output 1 line at a time, with some delays for dramatic effect}}
+{{/* runs through the output 1 line at a time, with some delays for dramatic effect */}}
 {{ $startingStatement := joinStr "" ":tiger: " $name " ventures into the tiger pit, in search of the precious marbles that the tigers guard..." }}
 {{ $secondStatement := joinStr "" $name " is " $randomEmotion "." }}
 {{ $openingMessage := sendMessageRetID nil (joinStr "\n" $startingStatement $secondStatement) }}
@@ -28,14 +27,14 @@
 {{ sleep 1 }}
 {{ $attemptMessage := sendMessageRetID nil (joinStr "" ":anguished: " $name " approaches...") }}
 {{ sleep 3 }}
-{{ if gt $successChance 50 }} {{/* if success, give the user more marbles and remove a sacrifice}}
+{{ if gt $successChance 50 }} {{/* if success, give the user more marbles and remove a sacrifice */}}
     {{ $newMarbles := add $currentMarbles $marbles }}
     {{ dbSet $user.ID "marbles" $newMarbles }}
     {{ $x:= dbIncr $user.ID $leftBehind 1 }}
     {{ $countOfDb := dbCount $extraType }}
     :partying_face: Success!! {{$name}} reaches out and takes the marbles! Alas, when {{$name}} leaves the pit they discover they left one of their {{$leftBehind}} behind...
 {{ if and (gt $chanceForExtra 50) (gt $countOfDb 0) }}{{ $listOfType := dbTopEntries $extraType $countOfDb 0 }}{{ $data := index (shuffle $listOfType) 0 }}{{ $victim := $data.UserID }}{{$vName:=""}}{{if (getMember $victim)}}{{$vName := (getMember $victim).Nick}}{{else}}{{$vName:= "Someone"}}{{end}}{{$newData := sub $data.Value 1 }}{{ if eq (toInt $newData) 0}}{{dbDel $victim $extraType }}{{ else }}{{dbSet $victim $extraType $newData }}{{end }}{{if or (not $vName) (eq $vName "")}}{{$vName = ($data.User).Username}}{{end}}:star_struck: {{$name}} also manages to find and take one of the {{$extraType}} that {{$vName}} left behind!{{ end }} {{/* purely for fun, removes one of the sacrifices from the pit and "gives" it to the user - not recorded, just for flavour and amusement}}
-{{ else }} {{/* failure either results in a few lost marbles or all lost marbles}}
+{{ else }} {{/* failure either results in a few lost marbles or all lost marbles */}}
    {{ $lostMarbles := randInt 1 3 }}
    {{ if eq (toInt $currentMarbles) 0 }}
    :tiger: The tigers will not be fooled! {{$name }} is consumed and has become part of the scenery within the tiger pit.

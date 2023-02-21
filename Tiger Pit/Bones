@@ -1,4 +1,4 @@
-{{/* shows how many Bones have been sacrificed to the pit, and who's memories in particular }}
+{{/* shows how many Bones have been sacrificed to the pit, and who's memories in particular */}}
 Currently in the pit:
 {{$maxCount := dbCount "bones"}}{{ range $items := dbTopEntries "bones" $maxCount 0 }}{{ $victim := $items.UserID }}{{if (getMember $victim)}}{{$name := (getMember $victim).Nick}}{{if not $name}}{{$name = ($items.User).Username}}{{end}}
 {{$items.Value}} of {{$name}}'s bones.{{end }}{{end}}
