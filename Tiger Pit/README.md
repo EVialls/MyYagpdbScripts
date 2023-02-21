@@ -1,6 +1,14 @@
 # The Tiger Pit
 A set of scripts that creates a minigame about collecting marbles from The Tiger Pit, with a risk of being eaten by the tigers, dropping marbles, and there always being a cost for taking marbles. There is very little interaction beyond activating the scripts, and is an entertaining randomiser for people who are hanging in a discord.
 
+# Recommended Installation
+1. Create a Custom Command Group named 'The Tigerpit'. This allows adjusting the usage of the commands all as one unit rather than having to sort each one individually
+2. Paste the contents of each non-readme file into a new command.
+   a) For each command, set Trigger Type to 'Commmand (mention/cmd prefix)'
+   b) In the 'Trigger' text box, put in the name of the command - The recommended names are the names of the files, and leaving it as not case sensitive
+
+It is highly recommended to restrict the commands to be used in a dedicated discord channel only, as there is a lot of text that comes from these that would get in the way of conversation.
+
 # The flow
 A new user who uses either the Marbles or Tigerpit command for the first time will get assigned in the database as having '0 marbles'. 
 
