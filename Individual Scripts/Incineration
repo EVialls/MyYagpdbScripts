@@ -1,0 +1,34 @@
+{{ addReactions "🔥" }}
+{{$originalName := .Member.Nick}}
+{{$re := `(?m)(INCINERATED)(x)*(\s)*([0-9])*` }}
+{{$fullName := reReplace $re $originalName "" }}
+{{$tooMany := ""}}
+{{$baseName :=$fullName}}
+{{$newName := joinStr " " "INCINERATED" $baseName}}
+{{$checkName := reFind "INCINERATED" $originalName}}
+{{if eq $checkName "INCINERATED"}}
+	{{$number := reFind "\\d+" $originalName}}
+	{{if $number}}
+		{{$sliceNumber := toInt $number}}
+		{{$newNumber := add $sliceNumber 1}}
+		{{$output := toString $newNumber}}
+		{{$newName := joinStr "x" "INCINERATED" $output}}
+		{{$newnewName:= joinStr " " $newName $baseName}}
+		{{if gt (len $newnewName) 32 }} 
+			{{$newnewName = slice $newnewName 0 32}}
+		{{end}}
+		{{editNickname $newnewName }}
+	{{else}}
+		{{$newName := joinStr "x" "INCINERATED" "2"}}
+		{{$newnewName:= joinStr " " $newName $baseName}}
+		{{if gt (len $newnewName) 32 }} 
+			{{$newnewName = slice $newnewName 0 32}}
+		{{end}}
+		{{editNickname $newnewName }}
+	{{end}}
+{{else}}
+	{{if gt (len $newName) 32 }} 
+		{{$newName = slice $newName 0 32}}
+	{{end}}
+	{{editNickname $newName}}
+{{end}}

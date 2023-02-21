@@ -1,0 +1,15 @@
+{{/* Takes either the user who's using the command or a member the user @s and returns how many marbles they have. If they are not registered in the database, defaults to creating the entry with them having 0 marbles */}}
+
+{{$args := parseArgs 0 "Syntax is <user>"
+    (carg "user" "user to check status of (optional)")}}
+{{$user := .User}}
+{{if $args.Get 0}}{{$user = $args.Get 0}}{{end}}
+{{$name := (getMember $user).Nick}}
+{{if not $name}}{{$name = $user.Username}}{{end}}
+{{ $marbles := dbGet $user.ID "marbles" }}
+{{ if $marbles }}
+{{$name}} has {{ $marbles.Value }} marbles.
+{{ else }}
+{{$name}} has 0 marbles.
+{{dbSet $user.ID "marbles" 0}}
+{{end}}

@@ -1,0 +1,4 @@
+{{/* Gives a leaderboard of those who have the most marbles */}}
+Marble Leaderboard {{$count := 0}}
+{{$maxCount := dbCount "marbles"}}{{ range $items := dbTopEntries "marbles" $maxCount 0 }}{{if lt $count 20}}{{ $victim := $items.UserID }}{{if (getMember $victim)}}{{$count = add $count 1}}{{$name := (getMember $victim).Nick}}{{if not $name}}{{$name = ($items.User).Username}}{{end}}
+{{$name}}: {{$items.Value}} marbles.{{end}}{{end}}{{end}}

@@ -1,0 +1,4 @@
+{{/* shows how many Teeth have been sacrificed to the pit, and who's memories in particular */}}
+Currently in the pit:
+{{$maxCount := dbCount "teeth"}}{{ range $items := dbTopEntries "teeth" $maxCount 0 }}{{ $victim := $items.UserID }}{{if (getMember $victim)}}{{$name := (getMember $victim).Nick}}{{if not $name}}{{$name = ($items.User).Username}}{{end}}
+{{$items.Value}} of {{$name}}'s teeth.{{end }}{{end}}

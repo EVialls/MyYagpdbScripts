@@ -1,0 +1,18 @@
+{{/* Gives a number of marbles as specified by the user to another player */}}
+{{$args := parseArgs 2 "Syntax is <user> <number>"
+    (carg "userid" "user to give marbles to")
+    (carg "int" "number of marbles")}}
+{{$number := $args.Get 1}}
+{{$currentMarbles:= dbGet .User.ID "marbles" }}
+{{if not $currentMarbles}}{{$currentMarbles = 0}}{{else}}{{$currentMarbles = toInt $currentMarbles.Value}}{{end}}
+{{if ge $currentMarbles $number}}
+{{$currentGifteeMarbles:= dbGet ($args.Get 0) "marbles" }}
+{{if not $currentGifteeMarbles}}{{$currentGifteeMarbles = 0}}{{else}}{{$currentGifteeMarbles = $currentGifteeMarbles.Value}}{{end}}
+{{$currentGifteeMarbles = (add $currentGifteeMarbles $number)}}
+{{$currentMarbles = (sub $currentMarbles $number)}}
+{{ dbSet .User.ID "marbles" $currentMarbles }}
+{{ dbSet ($args.Get 0) "marbles" $currentGifteeMarbles }}
+You gave {{$number}} marbles. You have {{$currentMarbles}} left...
+{{else}}
+You do not have enough marbles. Acquire more... if the Tigers will let you.
+{{end}}

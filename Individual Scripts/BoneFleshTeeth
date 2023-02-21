@@ -1,0 +1,2 @@
+{{$msg := .Args}}
+{{index $msg 2}} {{index $msg 1}} {{index $msg 0}}
