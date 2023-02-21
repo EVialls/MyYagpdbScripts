@@ -22,3 +22,12 @@ A script that does Call and Response based on a combination of the three words B
 4. Insert the following regex as the Trigger:
 
 ^([Tt][Ee]+[Tt][Hh])*([Ff][Ll][Ee][Ss][Hh])*([bB][Oo][Nn][Ee][sS]*)* ([Tt][Ee]+[Tt][Hh])*([Ff][Ll][Ee][Ss][Hh])*([bB][Oo][Nn][Ee][sS]*)* ([Tt][Ee]+[Tt][Hh])*([Ff][Ll][Ee][Ss][Hh])*([bB][Oo][Nn][Ee][sS]*)*$
+
+# Spiritphone
+A script that is for sending messages from one channel into another channel. Generally used if users can only see into 1 channel, and others can see into only the other, and allowing communication between the two. Has some spooky flavour to it
+
+## How to install
+1. Create a Custom Command, and past the contents of the Spiritphone file into it.
+2. In Developer Mode on Discord, right click on the two channels you want to use Spiritphone and Copy Id. Paste these in place of <channel1> and <channel2> in the script.
+3. Set the trigger type to Command
+4. Set the trigger to spiritphone (Optional) if you want a different trigger name, remember to adjust the text '-spiritphone' in the script to be whatever trigger you choose to use

@@ -1,0 +1,39 @@
+{{/* sets which channel the post is going into, and makes sure it's only activating if said in a valid channel - aka channel1 or channel2 */}}
+{{ $channel := 0 }}
+{{ if eq .Channel.ID <channel1> }}
+	{{ $channel = <channel2> }}
+{{end}}
+{{ if eq .Channel.ID <channel2> }}
+	{{ $channel = <channel1> }}
+{{ end }}
+{{ if ne $channel 0 }}
+
+{{/* gets the words that come after the command. If there are no words, has a default message. */}}
+{{ $words := cslice "There" "are" "no" "words." "Only" "silence." }}
+{{ $templength := (len .CmdArgs) }}
+{{ if (ne $templength 0) }}
+	{{ $words = .CmdArgs }}
+{{end}}
+
+{{/* processes the words so that one of them is spoilered to add to the spookiness factor */}}
+{{ $length := len $words }}
+{{ $output := "" }}
+{{ $randomNumber := randInt $length }}
+{{ range $index, $element := $words }}
+	{{if eq $index $randomNumber }}
+		{{$output = ( joinStr "" $output " ||" $element "||")}} 
+	{{else}}
+		{{ $output = (joinStr " " $output $element)}}
+	{{end}}
+{{end}}
+
+{{sleep 1}}
+
+{{/* formats the result and sends it, while reacting to the activating message to show it has activated. Includes the User Id and the command name at the bottom for moderation purposes. */}}
+{{ $avatar := .User.AvatarURL "256" }}
+{{ $title := joinStr " " "A voice of fire and brimstone. The name?" .Member.Nick }}
+{{ $footer := joinStr "" "-spiritphone " .User.ID}}
+{{ $embed := cembed "title" $title "description" $output "thumbnail" (sdict "url" $avatar) "footer" ( sdict "text" $footer) }}
+{{sendMessage $channel $embed }}
+{{ addReactions "👻" }}
+{{end}}
